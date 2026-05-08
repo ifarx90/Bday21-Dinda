@@ -963,12 +963,13 @@ section {
 .video-overlay-quote {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-size: clamp(1rem, 2vw, 1.35rem);
   color: rgba(245,240,232,.75);
   text-align: center;
-  line-height: 2;
-  max-width: 480px;
+  line-height: 1.6;
+  max-width: 380px;
 }
+.video-overlay-quote br { display: block; margin-bottom: 20px; }
 .video-overlay-quote span { color: var(--sage-light); }
 
 .video-overlay-text {

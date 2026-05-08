@@ -106,6 +106,9 @@ function openJourney() {
     // trigger 21 number fill animation
     document.getElementById("numFill").classList.add("revealed");
 
+    // fade musik masuk bareng teks pertama
+    if (window.fadeMusicIn) window.fadeMusicIn(0.5, 3000);
+
     // stagger chapter-1 text lines
     ["p1a", "p1b", "p1c"].forEach((id, i) => {
       setTimeout(() => {
@@ -373,7 +376,21 @@ function initMusic() {
   const btn    = document.getElementById("musicBtn");
   const audio  = document.getElementById("bgMusic");
   player.classList.add("visible");
-  audio.volume = 0.5;
+  audio.volume = 0;
+
+  window.fadeMusicIn = (targetVolume = 0.5, duration = 3000) => {
+    audio.play().catch(() => {});
+    btn.classList.add("playing");
+    const steps    = 40;
+    const interval = duration / steps;
+    const increment = targetVolume / steps;
+    let current = 0;
+    const fade = setInterval(() => {
+      current++;
+      audio.volume = Math.min(targetVolume, audio.volume + increment);
+      if (current >= steps) clearInterval(fade);
+    }, interval);
+  };
 
   btn.addEventListener("click", () => {
     if (audio.paused) {
@@ -402,13 +419,17 @@ function initMusic() {
 
 /* ── 12. VIDEO OVERLAY ────────────────────────────────── */
 function showVideoOverlay() {
-  if (window.fadeMusicOut) window.fadeMusicOut();
+  // fadeMusicOut sekarang dipanggil saat step2 muncul, bukan di sini
 
   const overlay = document.createElement("div");
   overlay.className = "video-overlay";
   overlay.innerHTML = `
     <div class="vo-step" id="voStep1">
-      <p class="video-overlay-quote">"Semua yang ada di sini<br>mungkin tidak sempurna diungkapkan.<br><br>Tapi semuanya <span>sungguh-sungguh.</span>"</p>
+      <p class="video-overlay-quote">
+  "Terima kasih udah bertahan sampai sejauh ini."<br><br>
+  "Dan untungnya, aku bisa kenal kamu di perjalanan itu."<br><br>
+  "Kalau suatu hari nanti semuanya terasa berat lagi, jangan lupa kalau kamu pernah <span>disayang setulus ini.</span>"
+</p>
       <p class="vo-hint">klik di mana saja untuk lanjut</p>
     </div>
     <div class="vo-step vo-hidden" id="voStep2">
@@ -451,6 +472,8 @@ function showVideoOverlay() {
   overlay.addEventListener("click", function onFirstClick() {
     overlay.removeEventListener("click", onFirstClick);
     goStep(step1, step2, () => {
+      // musik fade out bareng teks "penutup kecil" yang akan segera hilang
+      if (window.fadeMusicOut) window.fadeMusicOut();
       // 2 detik kemudian otomatis ke step3
       setTimeout(() => goStep(step2, step3), 2000);
     });
