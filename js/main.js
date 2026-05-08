@@ -416,7 +416,7 @@ function showVideoOverlay() {
     </div>
     <div class="vo-step vo-hidden" id="voStep3">
       <div class="video-wrapper" id="videoWrapper">
-        <video id="mainVideo" src="assets/video.mp4" preload="metadata" playsinline></video>
+        <video id="mainVideo" src="assets/Video.mp4" preload="metadata" playsinline></video>
         <div class="video-play-btn" id="videoPlayBtn">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <polygon points="6,3 20,12 6,21" fill="currentColor"/>
