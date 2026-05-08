@@ -1,0 +1,1037 @@
+/* ============================================================
+   DINDING 21 — style.css
+   Struktur:
+   1.  CSS Variables & Reset
+   2.  Custom Cursor
+   3.  Grain Overlay
+   4.  Scroll Progress & Nav Dots
+   5.  Gate (layar pembuka)
+   6.  Sections — base
+   7.  Chapter 1  · Angka 21
+   8.  Chapter 2  · Masa Kecil
+   9.  Chapter 3  · Tahun Berat
+   10. Chapter 4  · Tumbuh Diam-Diam
+   11. Chapter 5  · Hal Kecil
+   12. Chapter 6  · Aku Lihat Kamu
+   13. Chapter 7  · Harapan
+   14. Chapter 8  · Ending
+   15. Shared Components
+   16. Animations & Keyframes
+   17. Responsive
+============================================================ */
+
+
+/* ── 1. CSS VARIABLES & RESET ─────────────────────────── */
+:root {
+  --sage:        #7a9e7e;
+  --sage-light:  #a8c5a0;
+  --sage-dark:   #4a6b4e;
+  --sage-mist:   #d4e6d0;
+  --cream:       #f5f0e8;
+  --cream-dark:  #ede4d3;
+  --gold:        #c9a84c;
+  --gold-light:  #e8d5a3;
+  --ink:         #2c3028;
+  --ink-soft:    #4a5245;
+  --mist:        rgba(212,230,208,.15);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+ul, ol { list-style: none; }
+button { border: none; background: none; cursor: none; }
+
+
+/* ── 2. CUSTOM CURSOR ─────────────────────────────────── */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--sage-light);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: opacity .3s;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 32px; height: 32px;
+  border: 1px solid rgba(168,197,160,.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition:
+    width .3s,
+    height .3s,
+    border-color .3s;
+}
+
+.cursor-ring--hover {
+  width: 48px;
+  height: 48px;
+  border-color: rgba(201,168,76,.6);
+}
+
+
+/* ── 3. GRAIN OVERLAY ─────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9000;
+  opacity: .6;
+}
+
+
+/* ── 4. SCROLL PROGRESS & NAV DOTS ───────────────────── */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--sage-dark), var(--gold), var(--sage-light));
+  z-index: 6000;
+  width: 0%;
+  transition: width .1s linear;
+}
+
+.nav-dots {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5000;
+}
+
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(122,158,126,.25);
+  cursor: none;
+  transition: background .3s, transform .3s;
+}
+.nav-dot:hover  { background: var(--sage-light); transform: scale(1.5); }
+.nav-dot.active { background: var(--gold);       transform: scale(1.3); }
+
+
+/* ── 5. GATE ──────────────────────────────────────────── */
+#gate {
+  background: var(--ink);
+  position: fixed;
+  inset: 0;
+  z-index: 8000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.5s ease, visibility 1.5s;
+}
+#gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* floating dust particles on gate */
+.gate-particles { position: absolute; inset: 0; pointer-events: none; }
+.g-particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--sage-light);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatParticle var(--dur) ease-in-out var(--delay) infinite;
+}
+
+.gate-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem,10vw,7rem);
+  font-weight: 300;
+  letter-spacing: .3em;
+  color: var(--sage-light);
+  opacity: 0;
+  animation: fadeUp 2s ease .5s forwards;
+}
+
+.gate-sub {
+  font-size: .75rem;
+  letter-spacing: .25em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 2s ease 1.5s forwards;
+  margin-top: 16px;
+}
+
+.gate-btn {
+  margin-top: 60px;
+  opacity: 0;
+  animation: fadeUp 2s ease 2.5s forwards;
+  border: 1px solid rgba(168,197,160,.4);
+  color: var(--sage-light);
+  font-family: 'Jost', sans-serif;
+  font-weight: 200;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  transition: all .4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.gate-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--sage-dark);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s ease;
+  z-index: -1;
+}
+.gate-btn:hover::after { transform: scaleX(1); }
+.gate-btn:hover { border-color: var(--sage); color: var(--cream); }
+
+.gate-line {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 0;
+  background: linear-gradient(to bottom, transparent, var(--sage-light));
+  animation: lineGrow 2s ease 3.5s forwards;
+}
+
+
+/* ── 6. SECTIONS — BASE ───────────────────────────────── */
+#main { display: none; }
+#main.visible { display: block; }
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.fade-section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.fade-section.visible { opacity: 1; transform: none; }
+
+/* ambient glow blob */
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: .08;
+}
+
+
+/* ── 7. CHAPTER 1 · ANGKA 21 ─────────────────────────── */
+#chapter-1 { background: var(--ink); text-align: center; }
+
+.ch1-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.number-wrap { position: relative; }
+
+.number-display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(8rem,30vw,20rem);
+  font-weight: 300;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(122,158,126,.3);
+  user-select: none;
+}
+
+.number-fill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(8rem,30vw,20rem);
+  font-weight: 300;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--gold) 50%, var(--sage-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 2s cubic-bezier(.76,0,.24,1);
+}
+.number-fill.revealed { clip-path: inset(0 0% 0 0); }
+
+.ch1-text { max-width: 520px; }
+.ch1-text p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem,2.5vw,1.5rem);
+  font-style: italic;
+  color: rgba(245,240,232,.7);
+  line-height: 1.9;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.ch1-text p.vis { opacity: 1; transform: none; }
+
+/* 21 interactive year dots */
+.ch1-year-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 420px;
+}
+
+.year-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--sage-dark);
+  border: 1px solid var(--sage);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity .4s cubic-bezier(.34,1.56,.64,1), transform .4s cubic-bezier(.34,1.56,.64,1);
+  cursor: none;
+  position: relative;
+}
+.year-dot:hover { background: var(--gold); transform: scale(1.8) !important; }
+.year-dot.lit   { opacity: 1; transform: scale(1); }
+
+.year-dot[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  border: 1px solid var(--sage);
+  padding: 4px 10px;
+  font-size: .6rem;
+  white-space: nowrap;
+  color: var(--sage-light);
+  letter-spacing: .1em;
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+/* ── 8. CHAPTER 2 · MASA KECIL ───────────────────────── */
+#chapter-2 {
+  background: linear-gradient(180deg, var(--ink) 0%, #1e2a1f 100%);
+  align-items: flex-start;
+  padding: 100px clamp(24px,8vw,120px);
+}
+
+.ch2-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center;
+}
+
+.photo-col { display: flex; flex-direction: column; align-items: flex-start; }
+
+.ch2-text {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+/* ── 9. CHAPTER 3 · TAHUN BERAT ──────────────────────── */
+#chapter-3 {
+  background: #1a2a1b;
+  text-align: center;
+}
+
+.ch3-cards {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.reveal-card {
+  border-top: 1px solid rgba(122,158,126,.15);
+  padding: 24px 0;
+  cursor: none;
+  overflow: hidden;
+}
+.reveal-card:last-child { border-bottom: 1px solid rgba(122,158,126,.15); }
+
+.card-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: clamp(.85rem,1.5vw,.95rem);
+  color: rgba(245,240,232,.5);
+  letter-spacing: .05em;
+  transition: color .3s;
+}
+.reveal-card.open .card-trigger { color: var(--sage-light); }
+
+.card-arrow {
+  font-size: .7rem;
+  color: var(--sage);
+  transition: transform .4s ease;
+}
+.reveal-card.open .card-arrow { transform: rotate(90deg); }
+
+.card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .7s cubic-bezier(.16,1,.3,1), padding .4s;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem,2vw,1.2rem);
+  color: rgba(245,240,232,.75);
+  line-height: 1.9;
+  text-align: left;
+}
+.reveal-card.open .card-body { max-height: 300px; padding-top: 16px; }
+
+
+/* ── 10. CHAPTER 4 · TUMBUH DIAM-DIAM ───────────────── */
+#chapter-4 {
+  background: linear-gradient(180deg, #1a2a1b 0%, var(--ink) 100%);
+  padding: 100px clamp(24px,8vw,120px);
+}
+
+.ch4-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center;
+}
+
+.ch4-left { display: flex; flex-direction: column; gap: 48px; }
+
+.growth-items { display: flex; flex-direction: column; }
+
+.growth-item {
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(122,158,126,.1);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.growth-item.vis { opacity: 1; transform: none; }
+
+.growth-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .8rem;
+  color: var(--gold);
+  opacity: .5;
+  margin-bottom: 8px;
+}
+
+.growth-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem,2vw,1.4rem);
+  color: var(--cream);
+  margin-bottom: 8px;
+}
+
+.growth-desc {
+  font-size: .85rem;
+  color: rgba(245,240,232,.5);
+  line-height: 1.8;
+}
+
+/* 2-column photo grid */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  max-width: 420px;
+}
+.photo-frame--tall { grid-row: span 2; aspect-ratio: 2/3; }
+.photo-frame--sq   { aspect-ratio: 1/1; }
+
+
+/* ── 11. CHAPTER 5 · HAL KECIL ───────────────────────── */
+#chapter-5 {
+  background: var(--ink);
+  text-align: center;
+}
+#chapter-5::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(122,158,126,.06) 0%, transparent 70%);
+}
+
+.small-things {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 600px;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.thing-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px 24px;
+  border-left: 2px solid transparent;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .8s ease, transform .8s ease, border-color .3s, background .3s;
+}
+.thing-item.vis { opacity: 1; transform: none; }
+.thing-item:hover {
+  border-left-color: var(--sage);
+  background: rgba(122,158,126,.05);
+}
+
+.thing-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: var(--sage);
+  opacity: .4;
+  min-width: 30px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.thing-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem,2vw,1.25rem);
+  font-style: italic;
+  color: rgba(245,240,232,.8);
+  line-height: 1.7;
+}
+.thing-text em { color: var(--sage-light); font-style: normal; }
+
+
+/* ── 12. CHAPTER 6 · AKU LIHAT KAMU ─────────────────── */
+#chapter-6 {
+  background: linear-gradient(180deg, var(--ink) 0%, #1e2a1f 100%);
+  padding: 100px clamp(24px,8vw,120px);
+}
+
+.ch6-layout {
+  display: grid;
+  grid-template-columns: 5fr 4fr;
+  gap: 80px;
+  max-width: 1100px;
+  width: 100%;
+  align-items: center;
+}
+
+.big-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem,3.5vw,2.4rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--cream);
+  padding-left: 32px;
+  border: none;
+  position: relative;
+}
+.big-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 2px;
+  height: calc(100% - 16px);
+  background: linear-gradient(to bottom, var(--sage), var(--gold));
+}
+.big-quote span { color: var(--sage-light); }
+
+.photo-frame--portrait { aspect-ratio: 3/4; }
+
+
+/* ── 13. CHAPTER 7 · HARAPAN ─────────────────────────── */
+#chapter-7 { background: #1e2a1f; text-align: center; }
+
+.hopes-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+  max-width: 900px;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.hope-card {
+  background: rgba(122,158,126,.04);
+  border: 1px solid rgba(122,158,126,.12);
+  padding: 32px 24px;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .8s ease;
+  position: relative;
+  overflow: hidden;
+}
+.hope-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(122,158,126,.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .4s;
+}
+.hope-card:hover::before { opacity: 1; }
+.hope-card.vis { opacity: 1; transform: none; }
+
+.hope-icon {
+  width: 24px; height: 24px;
+  color: var(--sage);
+  display: block;
+  margin-bottom: 16px;
+  stroke-width: 1.2;
+}
+
+.hope-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.95rem,1.5vw,1.1rem);
+  font-style: italic;
+  color: rgba(245,240,232,.75);
+  line-height: 1.8;
+}
+
+
+/* ── 14. CHAPTER 8 · ENDING ──────────────────────────── */
+#chapter-8 { background: var(--ink); text-align: center; }
+
+.ending-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.ending-photo-circle {
+  width: clamp(180px,35vw,280px);
+  height: clamp(180px,35vw,280px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(122,158,126,.3);
+  position: relative;
+}
+/* rotating conic border */
+.ending-photo-circle::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: conic-gradient(var(--sage) 0deg, var(--gold) 120deg, var(--sage-light) 240deg, var(--sage) 360deg);
+  z-index: -1;
+  animation: rotateBorder 8s linear infinite;
+}
+.ending-photo-circle .photo-placeholder { border-radius: 0; border: none; }
+
+.ending-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem,6vw,4rem);
+  font-weight: 300;
+  line-height: 1.3;
+  color: var(--cream);
+}
+.ending-title span { color: var(--sage-light); }
+
+.ending-msg {
+  font-size: clamp(.9rem,1.5vw,1rem);
+  color: rgba(245,240,232,.55);
+  line-height: 2;
+  max-width: 480px;
+}
+
+.ending-sig {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem,2.5vw,1.6rem);
+  color: var(--gold);
+}
+
+.ending-from {
+  font-size: .7rem;
+  letter-spacing: .3em;
+  color: rgba(122,158,126,.4);
+  text-transform: uppercase;
+}
+
+.btn-surprise {
+  border: 1px solid rgba(122,158,126,.4);
+  color: var(--sage-light);
+  font-family: 'Jost', sans-serif;
+  font-size: .7rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  transition: background .4s, border-color .4s;
+  margin-top: 28px;
+}
+.btn-surprise:hover {
+  background: rgba(122,158,126,.1);
+  border-color: var(--sage);
+}
+
+/* petal canvas */
+#petal-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7000;
+  opacity: 0;
+  transition: opacity 1s;
+}
+#petal-canvas.active { opacity: 1; }
+
+
+/* ── 15. SHARED COMPONENTS ────────────────────────────── */
+
+/* Photo frame */
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+}
+.photo-frame::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(122,158,126,.2);
+  z-index: -1;
+}
+.photo-frame img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: sepia(.15) saturate(.9);
+}
+
+/* Placeholder (shown when no real photo is provided) */
+.photo-placeholder {
+  width: 100%; height: 100%;
+  aspect-ratio: inherit;
+  background: linear-gradient(135deg,#2a3d2b 0%,#1a2a1b 100%);
+  border: 1px solid rgba(122,158,126,.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--sage);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+.photo-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(122,158,126,.1);
+  pointer-events: none;
+}
+.photo-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,transparent,rgba(168,197,160,.03),transparent);
+  animation: shimmer 2.5s infinite;
+}
+.photo-icon  { font-size: 2rem; opacity: .4; }
+.photo-label { opacity: .5; }
+
+.photo-caption {
+  font-size: .65rem;
+  letter-spacing: .2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 16px;
+  opacity: .7;
+}
+
+/* Typography helpers */
+.section-label {
+  font-size: .6rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .7;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem,4vw,3rem);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--cream);
+  margin-top: 12px;
+}
+
+.section-body {
+  font-size: clamp(.9rem,1.5vw,1rem);
+  line-height: 2;
+  color: rgba(245,240,232,.65);
+  max-width: 440px;
+}
+.section-body em    { color: var(--sage-light); font-style: normal; }
+.section-body--italic { font-style: italic; color: rgba(212,230,208,.6); }
+.section-body--center { text-align: center; max-width: 520px; }
+
+.chapter-header { text-align: center; margin-bottom: 48px; }
+.chapter-header--left { text-align: left; }
+
+.deco-line {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--sage), transparent);
+  margin: 40px auto;
+}
+.deco-text {
+  font-size: .6rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: rgba(122,158,126,.4);
+}
+
+
+/* ── 16. ANIMATIONS & KEYFRAMES ──────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes lineGrow {
+  to { height: 80px; }
+}
+
+@keyframes floatParticle {
+  0%   { opacity: 0; transform: translateY(0) scale(1); }
+  20%  { opacity: .6; }
+  80%  { opacity: .3; }
+  100% { opacity: 0; transform: translateY(-120px) scale(.3); }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes rotateBorder {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ── 17. RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 768px) {
+  section { padding: 80px 24px; }
+
+  .ch2-layout,
+  .ch4-layout,
+  .ch6-layout { grid-template-columns: 1fr; gap: 40px; }
+
+  .ch2-layout .photo-col { order: -1; }
+
+  .photo-frame,
+  .photo-grid { max-width: 100%; }
+
+  .hopes-grid { grid-template-columns: 1fr; }
+
+  .nav-dots { display: none; }
+
+  /* hide aside photo on ch6 on mobile */
+  .ch6-layout > div:last-child { display: none; }
+}
+
+/* ── MUSIC PLAYER ─────────────────────────────────────── */
+.music-player {
+  position: fixed;
+  bottom: 28px; left: 28px;
+  z-index: 5500;
+  display: none;
+}
+.music-player.visible { display: block; }
+
+.music-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(122,158,126,.3) !important;
+  background: rgba(28,32,24,.8) !important;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .3s, background .3s;
+  cursor: none !important;
+}
+.music-btn:hover {
+  border-color: var(--sage) !important;
+  background: rgba(122,158,126,.15) !important;
+}
+.music-icon {
+  width: 18px; height: 18px;
+  color: rgba(168,197,160,.5);
+  transition: color .3s;
+}
+.music-btn.playing .music-icon {
+  color: var(--sage-light);
+  animation: musicRotate 4s linear infinite;
+}
+
+@keyframes musicRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── VIDEO OVERLAY ────────────────────────────────────── */
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  background: rgba(13,20,16,.95);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity 1s;
+  cursor: none;
+}
+.video-overlay.visible { opacity: 1; }
+
+.vo-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.vo-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: absolute;
+  transition: opacity 1.2s ease;
+}
+
+
+.vo-hint {
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(122,158,126,.3);
+  font-family: 'Jost', sans-serif;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: .3; }
+  50%       { opacity: .7; }
+}
+
+.video-overlay-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  color: rgba(245,240,232,.75);
+  text-align: center;
+  line-height: 2;
+  max-width: 480px;
+}
+.video-overlay-quote span { color: var(--sage-light); }
+
+.video-overlay-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: rgba(245,240,232,.5);
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.video-wrapper {
+  position: relative;
+  width: min(860px, 90vw);
+  aspect-ratio: 16/9;
+  background: #0d1410;
+  border: 1px solid rgba(122,158,126,.2);
+  overflow: hidden;
+  transition: opacity 1s ease, transform 1s ease;
+}
+.video-wrapper video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.video-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13,20,16,.4);
+  transition: background .4s, opacity .4s;
+  cursor: none;
+}
+.video-play-btn svg {
+  width: 64px; height: 64px;
+  color: var(--sage-light);
+  filter: drop-shadow(0 0 20px rgba(168,197,160,.5));
+  transition: transform .3s, color .3s;
+}
+.video-wrapper:hover .video-play-btn { background: rgba(13,20,16,.2); }
+.video-wrapper:hover .video-play-btn svg {
+  transform: scale(1.1);
+  color: var(--cream);
+}
+.video-play-btn.hidden { opacity: 0; pointer-events: none; }
+
+.video-close {
+  font-size: .6rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(122,158,126,.3);
+  font-family: 'Jost', sans-serif;
+  border: none !important;
+  background: none !important;
+  transition: color .3s;
+  cursor: none !important;
+  padding: 8px;
+}
+.video-close:hover { color: rgba(122,158,126,.7); }
+
+@media (max-width: 768px) {
+  .music-player { bottom: 20px; left: 20px; }
+  .video-play-btn svg { width: 48px; height: 48px; }
+}

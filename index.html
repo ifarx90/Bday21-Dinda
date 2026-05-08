@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dua Puluh Satu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <!-- ── CURSOR ──────────────────────────────────── -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- ── SCROLL PROGRESS ────────────────────────── -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ── PETAL / FIREWORK CANVAS ────────────────── -->
+    <canvas id="petal-canvas"></canvas>
+
+    <!-- ── SIDE NAV DOTS ──────────────────────────── -->
+    <nav class="nav-dots" id="navDots">
+      <div class="nav-dot active" data-target="chapter-1" title="Mulai"></div>
+      <div class="nav-dot" data-target="chapter-2" title="Masa Kecil"></div>
+      <div class="nav-dot" data-target="chapter-3" title="Tahun Berat"></div>
+      <div class="nav-dot" data-target="chapter-4" title="Tumbuh"></div>
+      <div class="nav-dot" data-target="chapter-5" title="Hal Kecil"></div>
+      <div class="nav-dot" data-target="chapter-6" title="Aku Lihat Kamu"></div>
+      <div class="nav-dot" data-target="chapter-7" title="Harapan"></div>
+      <div class="nav-dot" data-target="chapter-8" title="Akhir"></div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════
+       GATE — layar pembuka
+  ══════════════════════════════════════════════ -->
+    <div id="gate">
+      <div class="gate-particles" id="gateParticles"></div>
+      <div class="gate-name" id="gateName">D I N D A</div>
+      <div class="gate-sub">Dua Puluh Satu &middot; Sebuah perjalanan untukmu</div>
+      <button class="gate-btn" id="gateBtn">Mulai &rarr;</button>
+      <div class="gate-line"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+       MAIN — konten utama (tersembunyi sampai gate dibuka)
+  ══════════════════════════════════════════════ -->
+    <div id="main">
+      <!-- ── CHAPTER 1 · Angka ───────────────────── -->
+      <section id="chapter-1">
+        <div class="glow" style="width: 600px; height: 600px; background: var(--sage); top: -200px; left: -200px"></div>
+        <div class="ch1-inner">
+          <div class="number-wrap">
+            <div class="number-display">21</div>
+            <div class="number-fill" id="numFill">21</div>
+          </div>
+
+          <div class="ch1-text fade-section">
+            <p id="p1a">Ga kerasa yaa</p>
+            <p id="p1b" style="transition-delay: 0.3s">Tiba tiba kamu udah sampai di umur ini —</p>
+            <p id="p1c" style="transition-delay: 0.6s">Dan aku seneng bisa liat semuanya dari dekat</p>
+          </div>
+
+          <!-- 21 titik interaktif, satu per tahun -->
+          <div class="ch1-year-dots" id="yearDots"></div>
+
+          <div class="deco-line"></div>
+          <div class="deco-text fade-section">Scroll untuk melanjutkan</div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 2 · Masa Kecil ─────────────── -->
+      <section id="chapter-2">
+        <div class="ch2-layout">
+          <div class="photo-col">
+            <div class="photo-frame fade-section">
+              <img src="assets/dinda-kecil.jpg" alt="dinda kecil" />
+            </div>
+            <div class="photo-caption">— versi kecil yang sudah luar biasa sejak dulu</div>
+          </div>
+
+          <div class="ch2-text fade-section">
+            <span class="section-label">Chapter I — Awal</span>
+            <h2 class="section-title">Dinda kecil</h2>
+            <p class="section-body">
+              Kalau lihat foto ini sekarang, rasanya waktu memang jalan cepet banget ya. Tiba-tiba aja versi kecil di foto ini udah tumbuh sampai sejauh sekarang —
+              <em>udah ngelewatin banyak hal </em> dan pelan-pelan jadi seseorang yang sekarang aku kenal.
+            </p>
+            <p class="section-body">Dan entah kenapa, rasanya beberapa hal dari kamu memang ga pernah berubah.</p>
+            <p class="section-body section-body--italic">Masih jadi orang yang peduli terlalu dalam, masih banyak mikir diam-diam, dan masih berusaha baik bahkan waktu diri sendiri lagi capek.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 3 · Tahun Berat ────────────── -->
+      <section id="chapter-3">
+        <div class="chapter-header fade-section">
+          <span class="section-label">Chapter II — Tengah</span>
+          <h2 class="section-title">Ada tahun-tahun yang berat.</h2>
+        </div>
+
+        <p class="section-body section-body--center fade-section">Kayaknya ada banyak hal yang akhir-akhir ini bikin kamu capek ya — dan mungkin ga semuanya bisa kamu ceritain dengan gampang juga. Tapi sejauh ini, kamu tetap berhasil jalan sampai sini.</p>
+
+        <div class="ch3-cards fade-section">
+          <div class="reveal-card">
+            <div class="card-trigger">
+              <span>Waktu semua terasa tidak pasti</span>
+              <span class="card-arrow">›</span>
+            </div>
+            <div class="card-body">
+              Ada masa dimana semuanya rasanya berubah terlalu cepat — sampai kamu bingung harus mulai dari mana, harus percaya ke siapa, dan harus kuat sampai kapan. Tapi di tengah semua itu, kamu tetap jalan pelan-pelan.
+            </div>
+          </div>
+
+          <div class="reveal-card">
+            <div class="card-trigger">
+              <span>Waktu kamu harus kuat sendirian</span>
+              <span class="card-arrow">›</span>
+            </div>
+            <div class="card-body">
+              Kadang aku ngerasa kamu terlalu terbiasa bilang semuanya baik-baik aja — bahkan waktu sebenarnya kamu lagi capek banget sama banyak hal. Bukan karena kamu ga punya tempat cerita, tapi karena kamu lebih sering milih nyimpen semuanya sendiri dan berharap nanti juga reda pelan-pelan.
+            </div>
+          </div>
+
+          <div class="reveal-card">
+            <div class="card-trigger">
+              <span>Waktu kamu merasa tidak cukup</span>
+              <span class="card-arrow">›</span>
+            </div>
+            <div class="card-body">Ada masa dimana kamu ngerasa diri kamu masih kurang terus — kurang baik, kurang berhasil, atau kurang sesuai sama yang kamu harapin. 
+            Padahal ga semua hal harus selesai sekarang, dan kamu juga ga harus selalu sempurna. Kamu udah berkembang lebih banyak dari yang kamu kira.</div>
+          </div>
+
+          <div class="reveal-card">
+            <div class="card-trigger">
+              <span>Dan kamu tetap di sini, sekarang</span>
+              <span class="card-arrow">›</span>
+            </div>
+            <div class="card-body">Mungkin kamu sendiri ga sadar sejauh apa kamu udah bertahan sampai sekarang. Tapi setelah semua hal yang pernah bikin kamu capek dan kecewa, kamu masih tetap punya hati yang lembut — dan menurut aku itu indah banget.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 4 · Tumbuh Diam-Diam ──────── -->
+      <section id="chapter-4">
+        <div class="ch4-layout">
+          <div class="ch4-left">
+            <div class="chapter-header chapter-header--left">
+              <span class="section-label">Chapter III — Perubahan</span>
+              <h2 class="section-title">Yang tumbuh<br />diam-diam</h2>
+            </div>
+
+            <div class="growth-items">
+              <div class="growth-item">
+                <div class="growth-num">01</div>
+                <div class="growth-title">Kamu udah melewati banyak hal</div>
+                <div class="growth-desc">Dan mungkin itu yang bikin sekarang kamu jadi lebih banyak mikir sebelum cerita atau bereaksi. Bukan karena semuanya udah baik-baik aja, tapi karena kamu udah belajar gimana caranya tetap jalan walaupun lagi capek.</div>
+              </div>
+              <div class="growth-item" style="transition-delay: 0.15s">
+                <div class="growth-num">02</div>
+                <div class="growth-title">Kamu mulai punya arah sendiri</div>
+                <div class="growth-desc">Mungkin belum semuanya jelas sekarang — tapi pelan-pelan kamu mulai ngerti hal apa yang benar-benar kamu mau dan hal apa yang ternyata cuma bikin kamu capek.</div>
+              </div>
+              <div class="growth-item" style="transition-delay: 0.3s">
+                <div class="growth-num">03</div>
+                <div class="growth-title">Kamu tetap jalan pelan-pelan</div>
+                <div class="growth-desc">Aku suka cara kamu terus jalan walaupun banyak hal lagi berat. Kamu ga banyak nunjukin semuanya ke orang lain — tapi aku tau kamu terus berusaha sampai sekarang..</div>
+              </div>
+              <div class="growth-item" style="transition-delay: 0.45s">
+                <div class="growth-num">04</div>
+                <div class="growth-title">Dan untungnya, semua itu ga bikin kamu kehilangan diri kamu sendiri</div>
+                <div class="growth-desc">Kamu masih jadi orang yang bisa peduli dengan tulus, masih bisa sayang tanpa dibuat-buat — dan masih punya hati yang lembut walaupun hidup kadang bikin capek</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-grid fade-section">
+            <div class="photo-frame photo-frame--tall">
+              <img src="assets/dinda1.jpg" alt="dinda 1" />
+              <div class="photo-placeholder"><span class="photo-icon">📷</span><span class="photo-label">Foto candid</span></div>
+            </div>
+            <div class="photo-frame photo-frame--sq">
+              <img src="assets/dinda2.jpg" alt="dinda 2" />
+              <div class="photo-placeholder"><span class="photo-icon">🌱</span><span class="photo-label">Momen natural</span></div>
+            </div>
+            <div class="photo-frame photo-frame--sq">
+              <img src="assets/dinda5.jpg" alt="dinda 3" />
+              <div class="photo-placeholder"><span class="photo-icon">✨</span><span class="photo-label">Foto favorit</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 5 · Hal Kecil ──────────────── -->
+      <section id="chapter-5">
+        <div class="glow" style="width: 500px; height: 500px; background: var(--gold); bottom: -200px; right: -100px"></div>
+
+        <div class="chapter-header fade-section">
+          <span class="section-label">Chapter IV — Dari Aku</span>
+          <h2 class="section-title">Hal-hal kecil<br />yang aku suka dari kamu</h2>
+        </div>
+
+        <p class="section-body section-body--center fade-section">Kadang justru hal-hal kecil dari kamu yang paling sering kepikiran. Yang mungkin biasa aja buat kamu, tapi entah kenapa selalu nempel di kepala aku.</p>
+
+        <ul class="small-things">
+          <li class="thing-item">
+            <span class="thing-num">i</span>
+            <span class="thing-text">Aku suka waktu kamu ketawa <em>sampai</em> bener-bener lepas dan lupa jaim. Soalnya jarang banget lihat kamu sebebas itu — dan itu lucu banget buat dilihat.</span>
+          </li>
+          <li class="thing-item" style="transition-delay: 0.1s">
+            <span class="thing-num">ii</span>
+            <span class="thing-text">Kamu tuh selalu inget hal-hal kecil tentang orang yang kamu sayang. Hal yang mungkin orang lain anggap sepele — tapi kamu tetep simpen diingatan.</span>
+          </li>
+          <li class="thing-item" style="transition-delay: 0.2s">
+            <span class="thing-num">iii</span>
+            <span class="thing-text">Aku suka waktu kamu tiba-tiba cerita panjang tentang sesuatu, lalu aku cuma dengerin kamu ngomong terus tanpa sadar waktu jalan — <em> Karena entah kenapa, cara kamu cerita itu selalu bikin aku betah buat stay dan dengerin sampai habis.</em></span>
+          </li>
+          <li class="thing-item" style="transition-delay: 0.3s">
+            <span class="thing-num">iv</span>
+            <span class="thing-text">Kamu kalau ngomelin aku galak banget. Tapi anehnya — bukannya takut aku malah suka lihat ekspresi kamu waktu begitu.</span>
+          </li>
+          <li class="thing-item" style="transition-delay: 0.4s">
+            <span class="thing-num">v</span>
+            <span class="thing-text">Kamu tuh selalu inget hal-hal kecil tentang orang yang kamu sayang. Hal yang mungkin orang lain anggap sepele, tapi kamu tetep simpen diingatan.</span>
+          </li>
+          <li class="thing-item" style="transition-delay: 0.5s">
+            <span class="thing-num">vi</span>
+            <span class="thing-text">Kadang yang bikin nyaman itu bukan kata-kata kamu, tapi fakta kalau kamu ada<em> Dan menurut aku, itu lebih berarti dari banyak hal.</em></span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── CHAPTER 6 · Aku Lihat Kamu ────────── -->
+      <section id="chapter-6">
+        <div class="ch6-layout">
+          <div class="fade-section">
+            <span class="section-label" style="display: block; margin-bottom: 24px">Chapter V — Jujur</span>
+            <blockquote class="big-quote">
+              Kamu sering bilang kamu tidak tahu sudah cukup baik atau belum.<br /><br />
+              Tapi dari sini —
+              <span>kamu sudah lebih dari cukup</span> sejak lama.<br /><br />
+              Kamu hanya belum percaya saja.
+            </blockquote>
+            <p class="section-body" style="margin-top: 40px; max-width: 460px">
+              Aku ga pernah ngeliat kamu sebagai orang yang harus selalu sempurna — karena justru hal-hal kecil dan random dari kamu itu yang bikin kamu jadi diri kamu sendiri. Aku cuma suka cara kamu jadi diri sendiri, dengan semua hal kecil yang kadang bahkan kamu sendiri ga sadar.
+            </p>
+          </div>
+
+          <div class="fade-section" style="transition-delay: 0.3s">
+            <div class="photo-frame photo-frame--portrait" style="max-width: 280px">
+              <img src="assets/dinda3.jpg" alt="dinda4" />
+              <div class="photo-placeholder"><span class="photo-icon">💚</span><span class="photo-label">Foto kita berdua</span></div>
+            </div>
+            <div class="photo-caption" style="text-align: left">— momen yang tidak perlu dipoles</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 7 · Harapan ────────────────── -->
+      <section id="chapter-7">
+        <div class="chapter-header fade-section">
+          <span class="section-label">Chapter VI — Ke Depan</span>
+          <h2 class="section-title">Harapan kecil<br />untuk tahun ini</h2>
+        </div>
+
+        <p class="section-body section-body--center fade-section">Bukan yang muluk-muluk. Yang realistis, yang benar-benar aku harapkan.</p>
+
+        <div class="hopes-grid">
+          <div class="hope-card">
+            <i data-lucide="leaf" class="hope-icon"></i>
+            <p class="hope-text">Aku ga berharap tahun ini jadi sempurna buat kamu — aku cuma berharap semuanya terasa sedikit lebih ringan dari sebelumnya.</p>
+          </div>
+          <div class="hope-card" style="transition-delay: 0.1s">
+            <i data-lucide="coffee" class="hope-icon"></i>
+            <p class="hope-text">Aku harap tahun ini kamu bisa punya lebih banyak hari dimana kepala kamu ga serame biasanya — walaupun hidup tetep capek kadang.</p>
+          </div>
+          <div class="hope-card" style="transition-delay: 0.2s">
+            <i data-lucide="pause-circle" class="hope-icon"></i>
+            <p class="hope-text">Aku harap kamu bisa istirahat tanpa ngerasa harus terus kuat atau terus ngelakuin sesuatu — karena kadang diem sebentar juga udah cukup.</p>
+          </div>
+          <div class="hope-card" style="transition-delay: 0.3s">
+            <i data-lucide="sparkles" class="hope-icon"></i>
+            <p class="hope-text">Aku harap selalu ada hal kecil yang bisa bikin kamu excited lagi — bahkan di tengah hari-hari yang lagi capek.</p>
+          </div>
+          <div class="hope-card" style="transition-delay: 0.4s">
+            <i data-lucide="moon" class="hope-icon"></i>
+            <p class="hope-text">Semoga di akhir hari-hari sulitnya, kamu ingat bahwa kamu sudah melewati yang lebih berat dari ini.</p>
+          </div>
+          <div class="hope-card" style="transition-delay: 0.5s">
+            <i data-lucide="heart" class="hope-icon"></i>
+            <p class="hope-text">Dan semoga kamu tahu ada orang yang dengan senang hati ada di sampingmu, apapun yang terjadi.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CHAPTER 8 · Ending ─────────────────── -->
+      <section id="chapter-8">
+        <div class="glow" style="width: 700px; height: 700px; background: var(--sage); top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.07"></div>
+
+        <div class="ending-wrap fade-section">
+          <div class="ending-photo-circle">
+            
+            <img src="assets/dinda4.jpg" alt="dinda4" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+         
+            <div class="photo-placeholder" style="border-radius: 50%">
+              <span class="photo-icon" style="font-size: 3rem">🌿</span>
+              <span class="photo-label">Foto terbaik kamu</span>
+            </div>
+          </div>
+
+          <h2 class="ending-title">
+            Selamat ulang tahun,<br />
+            <span id="endingName">INCES SAYANG</span>
+          </h2>
+
+          <p class="ending-msg">
+            Dua puluh satu tahun itu panjang ya — dan aku yakin ga semua harinya mudah buat kamu jalanin. Ada banyak hal yang mungkin bikin kamu berubah pelan-pelan, bikin kamu belajar banyak hal dengan cara yang ga selalu enak, sampai akhirnya ngebentuk kamu jadi diri kamu yang sekarang.
+            <br /><br />
+            Dari semua perjalanan yang udah kamu lewatin sampai sejauh ini, untungnya aku bisa ada di salah satu bagian kecilnya.
+          </p>
+
+          <div class="deco-line" style="height: 40px"></div>
+
+          <p class="ending-sig">dengan sayang, selalu —</p>
+          <p class="ending-from" id="endingFrom">Rafii Ganteng Banget</p>
+
+          <!-- Tombol kejutan terakhir -->
+          <button class="btn-surprise" id="btnSurprise">🌿 &nbsp; Satu hal terakhir</button>
+        </div>
+      </div>
+    <!-- /main -->
+
+    <!-- ── MUSIC PLAYER ───────────────────────────────── -->
+    <div class="music-player" id="musicPlayer">
+      <audio id="bgMusic" src="assets/music.mp3" loop></audio>
+      <button class="music-btn" id="musicBtn" title="Play musik">
+        <svg class="music-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18V6l12-2v12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.2"/>
+          <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+      </button>
+   </div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script>lucide.createIcons();</script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
